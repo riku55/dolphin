@@ -769,6 +769,7 @@ add_subdirectory(Externals/FatFs)
 
 if (USE_RETRO_ACHIEVEMENTS)
 	add_subdirectory(Externals/rcheevos)
+	add_definitions(-DUSE_RETRO_ACHIEVEMENTS)
 endif()
 
 ########################################

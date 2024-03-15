@@ -448,6 +448,10 @@ public final class NativeLibrary
 
   private static native String GetCurrentTitleDescriptionUnchecked();
 
+  public static native void LoginRetroAchievements(String password);
+
+  public static native void InitAchievementManager();
+
   @Keep
   public static void displayToastMsg(final String text, final boolean long_length)
   {

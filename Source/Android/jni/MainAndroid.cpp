@@ -1,6 +1,7 @@
 // Copyright 2003 Dolphin Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <Core/AchievementManager.h>
 #include <EGL/egl.h>
 #include <android/log.h>
 #include <android/native_window_jni.h>
@@ -788,5 +789,20 @@ Java_org_dolphinemu_dolphinemu_NativeLibrary_GetCurrentTitleDescriptionUnchecked
     description = SConfig::GetInstance().GetTitleDescription();
 
   return ToJString(env, description);
+}
+
+JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_LoginRetroAchievements(
+    JNIEnv* env, jclass, jstring jPassword)
+{
+  const std::string password = GetJString(env, jPassword);
+  AchievementManager::ResponseType loginResponse = AchievementManager::GetInstance().Login(password);
+}
+
+JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_InitAchievementManager(JNIEnv*,
+                                                                                           jclass)
+{
+#ifdef USE_RETRO_ACHIEVEMENTS
+  AchievementManager::GetInstance().Init();
+#endif
 }
 }

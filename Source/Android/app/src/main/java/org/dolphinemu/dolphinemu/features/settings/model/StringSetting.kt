@@ -80,6 +80,18 @@ enum class StringSetting(
         Settings.SECTION_GFX_SETTINGS,
         "DriverLibName",
         ""
+    ),
+    RETROACHIEVEMENTS_USER_NAME(
+        Settings.FILE_ACHIEVEMENTS,
+        Settings.SECTION_ACHIEVEMENTS,
+        "Username",
+        ""
+    ),
+    RETROACHIEVEMENTS_API_TOKEN(
+        Settings.FILE_ACHIEVEMENTS,
+        Settings.SECTION_ACHIEVEMENTS,
+        "ApiToken",
+        ""
     );
 
     override val isOverridden: Boolean
