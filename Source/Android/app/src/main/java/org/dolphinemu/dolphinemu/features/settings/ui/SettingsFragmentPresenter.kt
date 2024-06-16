@@ -112,6 +112,7 @@ class SettingsFragmentPresenter(
             MenuTag.CONFIG_INTERFACE -> addInterfaceSettings(sl)
             MenuTag.CONFIG_AUDIO -> addAudioSettings(sl)
             MenuTag.CONFIG_PATHS -> addPathsSettings(sl)
+            MenuTag.CONFIG_RETROACHIEVEMENTS -> addRetroAchievementsSettings(sl)
             MenuTag.CONFIG_GAME_CUBE -> addGameCubeSettings(sl)
             MenuTag.CONFIG_WII -> addWiiSettings(sl)
             MenuTag.CONFIG_ADVANCED -> addAdvancedSettings(sl)
@@ -201,6 +202,7 @@ class SettingsFragmentPresenter(
         sl.add(SubmenuSetting(context, R.string.interface_submenu, MenuTag.CONFIG_INTERFACE))
         sl.add(SubmenuSetting(context, R.string.audio_submenu, MenuTag.CONFIG_AUDIO))
         sl.add(SubmenuSetting(context, R.string.paths_submenu, MenuTag.CONFIG_PATHS))
+        sl.add(SubmenuSetting(context, R.string.retroachievements_submenu, MenuTag.CONFIG_RETROACHIEVEMENTS))
         sl.add(SubmenuSetting(context, R.string.gamecube_submenu, MenuTag.CONFIG_GAME_CUBE))
         sl.add(SubmenuSetting(context, R.string.wii_submenu, MenuTag.CONFIG_WII))
         sl.add(SubmenuSetting(context, R.string.advanced_submenu, MenuTag.CONFIG_ADVANCED))
@@ -880,6 +882,104 @@ class SettingsFragmentPresenter(
             )
         )
     }
+
+  private fun addRetroAchievementsSettings(sl: ArrayList<SettingsItem>) {
+    val isLoggedIn = StringSetting.RETROACHIEVEMENTS_API_TOKEN.string.isNotBlank()
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_ENABLE,
+        R.string.retro_achievements_integration_active,
+        0
+      )
+    )
+    sl.add(
+      InputStringSetting(
+        context,
+        StringSetting.RETROACHIEVEMENTS_USER_NAME,
+        R.string.achievements_user_name,
+        0
+      )
+    )
+    val passwordSettings = TemporaryStringSetting(
+      context,
+      R.string.achievements_password,
+      0
+    )
+    sl.add(passwordSettings)
+    sl.add(
+      RunRunnable(
+        context,
+        if (isLoggedIn)
+          R.string.retroachievements_logout_button
+        else
+          R.string.retroachievements_login_button,
+        0,
+        if (isLoggedIn)
+          R.string.retroachievements_logout_text
+        else
+          R.string.retroachievements_login_text,
+        0,
+        true
+      ) {
+        if (isLoggedIn)
+          StringSetting.RETROACHIEVEMENTS_API_TOKEN.setString(this.settings!!, String())
+        else {
+          settings!!.saveSettings(context)
+          //NativeLibrary.InitAchievementManager()
+          NativeLibrary.LoginRetroAchievements(passwordSettings.string)
+        }
+      }
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_HARDCORE_ENABLE,
+        R.string.hardcore_mode_enabled,
+        0
+      )
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_UNOFFICIAL_ENABLE,
+        R.string.unofficial_achievements_enabled,
+        0
+      )
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_ENCORE_ENABLE,
+        R.string.encore_achievements_enabled,
+        0
+      )
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_SPECTATOR_ENABLE,
+        R.string.spectator_enabled,
+        0
+      )
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_DISCORD_PRESENCE_ENABLE,
+        R.string.discord_presence_enabled,
+        0
+      )
+    )
+    sl.add(
+      SwitchSetting(
+        context,
+        BooleanSetting.RETROACHIEVEMENTS_PROGRESS_ENABLE,
+        R.string.progress_notifications_enabled,
+        0
+      )
+    )
+  }
 
     private fun addAdvancedSettings(sl: ArrayList<SettingsItem>) {
         val SYNC_GPU_NEVER = 0

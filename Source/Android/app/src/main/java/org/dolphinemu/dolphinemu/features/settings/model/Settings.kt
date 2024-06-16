@@ -132,5 +132,7 @@ class Settings : Closeable {
         const val SECTION_EMULATED_USB_DEVICES = "EmulatedUSBDevices"
         const val SECTION_STEREOSCOPY = "Stereoscopy"
         const val SECTION_ANALYTICS = "Analytics"
+        const val FILE_ACHIEVEMENTS = "Achievements"
+        const val SECTION_ACHIEVEMENTS = "Achievements"
     }
 }

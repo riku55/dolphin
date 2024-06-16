@@ -193,6 +193,23 @@
     <string name="resource_pack_path">Resource Pack Path</string>
     <string name="wfs_path">WFS Path</string>
 
+    <!-- RetroAchievements Settings -->
+    <string name="retroachievements_submenu">Retroachievements</string>
+    <string name="retro_achievements_integration_active">Enable RetroAchievements.org Integration</string>
+    <string name="hardcore_mode_enabled">Enable Hardcore Mode</string>
+    <string name="unofficial_achievements_enabled">Enable Unofficial Achievements</string>
+    <string name="encore_achievements_enabled">Enable Encore Achievements</string>
+    <string name="spectator_enabled">Enable Spectator Mode</string>
+    <string name="discord_presence_enabled">Enable Discord Rich Presence</string>
+    <string name="progress_notifications_enabled">Enable Progress Notifications</string>
+    <string name="achievements_user_name">Username</string>
+    <string name="achievements_password">Password</string>
+    <string name="retroachievements_login_header">RetroAchievements Login</string>
+    <string name="retroachievements_login_text">Login to RetroAchievements?</string>
+    <string name="retroachievements_logout_text">Logout from RetroAchievements?</string>
+    <string name="retroachievements_login_button">Login</string>
+    <string name="retroachievements_logout_button">Logout</string>
+
     <!-- Graphics Settings -->
     <string name="graphics_general">General</string>
     <string name="graphics_more_settings">More</string>
