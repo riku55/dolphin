@@ -96,11 +96,15 @@ public:
   bool HasAPIToken() const;
   void LoadGame(const std::string& file_path, const DiscIO::Volume* volume);
   bool IsGameLoaded() const;
+  void SetBackgroundExecutionAllowed(bool allowed);
 
   void FetchPlayerBadge();
   void FetchGameBadges();
 
   void DoFrame();
+
+  bool CanPause();
+  void DoIdle();
 
   std::recursive_mutex& GetLock();
   void SetHardcoreMode();
@@ -116,7 +120,7 @@ public:
   const Badge& GetAchievementBadge(AchievementId id, bool locked) const;
   const LeaderboardStatus* GetLeaderboardInfo(AchievementId leaderboard_id);
   RichPresence GetRichPresence() const;
-  const bool AreChallengesUpdated() const;
+  bool AreChallengesUpdated() const;
   void ResetChallengesUpdated();
   const std::unordered_set<AchievementId>& GetActiveChallenges() const;
   std::vector<std::string> GetActiveLeaderboards() const;
@@ -177,6 +181,7 @@ private:
 
   static void Request(const rc_api_request_t* request, rc_client_server_callback_t callback,
                       void* callback_data, rc_client_t* client);
+  static u32 MemoryVerifier(u32 address, u8* buffer, u32 num_bytes, rc_client_t* client);
   static u32 MemoryPeeker(u32 address, u8* buffer, u32 num_bytes, rc_client_t* client);
   void FetchBadge(Badge* badge, u32 badge_type, const BadgeNameFunction function,
                   const UpdatedItems callback_data);
@@ -192,6 +197,7 @@ private:
   Badge m_default_game_badge;
   Badge m_default_unlocked_badge;
   Badge m_default_locked_badge;
+  std::atomic_bool m_background_execution_allowed = true;
   Badge m_player_badge;
   Hash m_game_hash{};
   u32 m_game_id = 0;
@@ -237,6 +243,8 @@ public:
   constexpr bool IsHardcoreModeActive() { return false; }
 
   constexpr void LoadGame(const std::string&, const DiscIO::Volume*) {}
+
+  constexpr void SetBackgroundExecutionAllowed(bool allowed) {}
 
   constexpr void DoFrame() {}
 

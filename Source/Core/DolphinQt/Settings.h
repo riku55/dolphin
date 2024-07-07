@@ -104,7 +104,6 @@ public:
   void RefreshGameList();
   void NotifyRefreshGameListStarted();
   void NotifyRefreshGameListComplete();
-  void RefreshMetadata();
   void NotifyMetadataRefreshComplete();
   void ReloadTitleDB();
   bool IsAutoRefreshEnabled() const;
@@ -120,6 +119,9 @@ public:
   void SetSDCardInserted(bool inserted);
   bool IsUSBKeyboardConnected() const;
   void SetUSBKeyboardConnected(bool connected);
+
+  void SetIsContinuouslyFrameStepping(bool is_stepping);
+  bool GetIsContinuouslyFrameStepping() const;
 
   // Graphics
   Config::ShowCursor GetCursorVisibility() const;
@@ -224,11 +226,14 @@ signals:
   void SDCardInsertionChanged(bool inserted);
   void USBKeyboardConnectionChanged(bool connected);
   void EnableGfxModsChanged(bool enabled);
+  void HardcoreStateChanged();
 
 private:
   Settings();
 
   bool m_batch = false;
+  std::atomic<bool> m_continuously_frame_stepping = false;
+
   std::shared_ptr<NetPlay::NetPlayClient> m_client;
   std::shared_ptr<NetPlay::NetPlayServer> m_server;
   ControllerInterface::HotplugCallbackHandle m_hotplug_callback_handle;
