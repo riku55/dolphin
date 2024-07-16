@@ -16,6 +16,7 @@ enum class MenuTag {
     CONFIG_WII("config_wii"),
     CONFIG_ADVANCED("config_advanced"),
     CONFIG_LOG("config_log"),
+    CONFIG_RETROACHIEVEMENTS("config_retroachievements"),
     DEBUG("debug"),
     GRAPHICS("graphics"),
     ENHANCEMENTS("enhancements"),

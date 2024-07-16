@@ -115,6 +115,11 @@ class SettingsAdapter(
                     inflater
                 ), this
             )
+            SettingsItem.TYPE_TEMPORARY_STRING -> TemporaryInputStringSettingViewHolder(
+                ListItemSettingBinding.inflate(
+                    inflater
+                ), this
+            )
             else -> throw IllegalArgumentException("Invalid view type: $viewType")
         }
     }
@@ -174,6 +179,26 @@ class SettingsAdapter(
                     fragmentView.onSettingChanged()
                 }
                 item.setSelectedValue(fragmentView.settings!!, editTextInput)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    fun onTemporaryStringInputClick(item: TemporaryStringSetting, position: Int) {
+        val inflater = LayoutInflater.from(context)
+        val binding = DialogInputStringBinding.inflate(inflater)
+        val input = binding.input
+        input.setText(item.string)
+        dialog = MaterialAlertDialogBuilder(fragmentView.fragmentActivity)
+            .setView(binding.root)
+            .setMessage(item.description)
+            .setPositiveButton(R.string.ok) { _: DialogInterface?, _: Int ->
+                val editTextInput = input.text.toString()
+                if (item.string != editTextInput) {
+                    notifyItemChanged(position)
+                    fragmentView.onSettingChanged()
+                }
+                item.string = editTextInput
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
