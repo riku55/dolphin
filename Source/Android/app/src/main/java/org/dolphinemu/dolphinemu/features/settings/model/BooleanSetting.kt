@@ -859,6 +859,48 @@ enum class BooleanSetting(
         Settings.SECTION_LOGGER_OPTIONS,
         "WriteToFile",
         false
+    ),
+    RETROACHIEVEMENTS_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "Enabled",
+      false
+    ),
+    RETROACHIEVEMENTS_HARDCORE_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "HardcoreEnabled",
+      false
+    ),
+    RETROACHIEVEMENTS_UNOFFICIAL_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "UnofficialEnabled",
+      false
+    ),
+    RETROACHIEVEMENTS_ENCORE_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "EncoreEnabled",
+      false
+    ),
+    RETROACHIEVEMENTS_SPECTATOR_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "SpectatorEnabled",
+      false
+    ),
+    RETROACHIEVEMENTS_DISCORD_PRESENCE_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "DiscordPresenceEnabled",
+      false
+    ),
+    RETROACHIEVEMENTS_PROGRESS_ENABLE(
+      Settings.FILE_ACHIEVEMENTS,
+      Settings.SECTION_ACHIEVEMENTS,
+      "ProgressEnabled",
+      false
     );
 
     override val isOverridden: Boolean

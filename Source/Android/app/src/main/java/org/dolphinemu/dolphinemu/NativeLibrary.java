@@ -453,6 +453,10 @@ public final class NativeLibrary
     }
   }
 
+  public static native void LoginRetroAchievements(String password);
+
+  public static native void InitAchievementManager();
+
   private static native boolean IsEmulatingWiiUnchecked();
 
   private static native String GetCurrentGameIDUnchecked();

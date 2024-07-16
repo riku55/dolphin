@@ -17,6 +17,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.dolphinemu.dolphinemu.NativeLibrary
 import org.dolphinemu.dolphinemu.R
 import org.dolphinemu.dolphinemu.activities.EmulationActivity
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter
@@ -88,6 +93,15 @@ class MainActivity : AppCompatActivity(), MainView, OnRefreshListener, ThemeProv
             AfterDirectoryInitializationRunner()
                 .runWithLifecycle(this) { setPlatformTabsAndStartGameFileCacheService() }
         }
+
+        CoroutineScope(IO).launch {
+            // TODO: this is obviously very bad and only for quick testing purposes
+            delay(2_000L)
+            NativeLibrary.InitAchievementManager()
+            NativeLibrary.LoginRetroAchievements("")
+        }
+
+
     }
 
     override fun onResume() {
