@@ -45,7 +45,7 @@ ARCodeWidget::ARCodeWidget(std::string game_id, u16 game_revision, bool restart_
 
     const Common::IniFile game_ini_default =
         SConfig::LoadDefaultGameIni(m_game_id, m_game_revision);
-    m_ar_codes = ActionReplay::LoadCodes(game_ini_default, game_ini_local);
+    m_ar_codes = ActionReplay::LoadCodes(game_ini_default, game_ini_local, m_game_id);
   }
 
   UpdateList();

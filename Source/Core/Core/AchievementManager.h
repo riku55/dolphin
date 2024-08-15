@@ -50,6 +50,11 @@ namespace Gecko
 class GeckoCode;
 }  // namespace Gecko
 
+namespace ActionReplay
+{
+struct ARCode;
+} // namespace ActionReplay
+
 class AchievementManager
 {
 public:
@@ -75,8 +80,8 @@ public:
   static constexpr std::string_view BLUE = "#0B71C1";
   static constexpr std::string_view APPROVED_LIST_FILENAME = "ApprovedInis.json";
   static const inline Common::SHA1::Digest APPROVED_LIST_HASH = {
-      0x01, 0x1E, 0x2E, 0x74, 0xDD, 0x07, 0x79, 0xDA, 0x0E, 0x5D,
-      0xF8, 0x51, 0x09, 0xC7, 0x9B, 0x46, 0x22, 0x95, 0x50, 0xE9};
+      0x74, 0x7C, 0x43, 0xA3, 0x55, 0xC7, 0x77, 0xAE, 0xAC, 0xEF,
+      0x8C, 0x89, 0xBF, 0x00, 0x76, 0xA2, 0xF8, 0xFB, 0x5E, 0x9C};
 
   struct LeaderboardEntry
   {
@@ -132,6 +137,8 @@ public:
                              const std::string& game_ini_id) const;
   void FilterApprovedGeckoCodes(std::vector<Gecko::GeckoCode>& codes,
                                 const std::string& game_ini_id) const;
+  void FilterApprovedActionReplayCodes(std::vector<ActionReplay::ARCode>& ops,
+                                       const std::string& game_ini_id) const;
 
   void SetSpectatorMode();
   std::string_view GetPlayerDisplayName() const;
@@ -191,6 +198,7 @@ private:
   void FilterApprovedIni(std::vector<T>& patches, const std::string& game_ini_id) const;
   Common::SHA1::Digest GetPatchHash(const PatchEngine::Patch& patch) const;
   Common::SHA1::Digest GetPatchHash(const Gecko::GeckoCode& patch) const;
+  Common::SHA1::Digest GetPatchHash(const ActionReplay::ARCode& patch) const;
 
   static void LeaderboardEntriesCallback(int result, const char* error_message,
                                          rc_client_leaderboard_entry_list_t* list,

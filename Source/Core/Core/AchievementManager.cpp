@@ -23,6 +23,7 @@
 #include "Common/ScopeGuard.h"
 #include "Common/Version.h"
 #include "Common/WorkQueueThread.h"
+#include "Core/ActionReplay.h"
 #include "Core/Config/AchievementSettings.h"
 #include "Core/Core.h"
 #include "Core/GeckoCode.h"
@@ -381,22 +382,20 @@ void AchievementManager::FilterApprovedIni(std::vector<T>& patches,
     INFO_LOG_FMT(ACHIEVEMENTS, "Verifying patch {}", patch_itr->name);
 
     bool verified = false;
+    auto digest = GetPatchHash(*patch_itr);
 
     if (known_id)
     {
-      auto digest = GetPatchHash(*patch_itr);
+      //auto digest = GetPatchHash(*patch_itr);
 
       verified = m_ini_root->get(game_ini_id).contains(Common::SHA1::DigestToString(digest));
     }
 
     if (!verified)
     {
+      INFO_LOG_FMT(ACHIEVEMENTS, "Couldn't verify patch {} with hash {}", patch_itr->name,
+                   Common::SHA1::DigestToString(digest));
       patch_itr = patches.erase(patch_itr);
-      OSD::AddMessage(
-          fmt::format("Failed to verify code {} from file {}.", patch_itr->name, game_ini_id),
-          OSD::Duration::VERY_LONG, OSD::Color::RED);
-      OSD::AddMessage("Disable hardcore mode to enable this patch.", OSD::Duration::VERY_LONG,
-                      OSD::Color::RED);
     }
     else
     {
@@ -432,6 +431,18 @@ Common::SHA1::Digest AchievementManager::GetPatchHash(const Gecko::GeckoCode& co
   return context->Finish();
 }
 
+Common::SHA1::Digest AchievementManager::GetPatchHash(const ActionReplay::ARCode& code) const
+{
+  auto context = Common::SHA1::CreateContext();
+  context->Update(Common::BitCastToArray<u8>(static_cast<u64>(code.ops.size())));
+  for (const auto& entry : code.ops)
+  {
+    context->Update(Common::BitCastToArray<u8>(entry.cmd_addr));
+    context->Update(Common::BitCastToArray<u8>(entry.value));
+  }
+  return context->Finish();
+}
+
 void AchievementManager::FilterApprovedPatches(std::vector<PatchEngine::Patch>& patches,
                                                const std::string& game_ini_id) const
 {
@@ -442,6 +453,11 @@ void AchievementManager::FilterApprovedGeckoCodes(std::vector<Gecko::GeckoCode>&
                                                   const std::string& game_ini_id) const
 {
   FilterApprovedIni(codes, game_ini_id);
+}
+
+void AchievementManager::FilterApprovedActionReplayCodes(std::vector<ActionReplay::ARCode>& ops, const std::string& game_ini_id) const
+{
+  FilterApprovedIni(ops, game_ini_id);
 }
 
 void AchievementManager::SetSpectatorMode()
