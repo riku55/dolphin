@@ -245,10 +245,6 @@ HttpRequest::Response HttpRequest::Impl::Fetch(const std::string& url, Method me
     curl_easy_setopt(m_curl.get(), CURLOPT_POSTFIELDSIZE, size);
   }
 
-    // TODO: Find way to make http requests work on android without disabling ssl
-    curl_easy_setopt(m_curl.get(), CURLOPT_SSL_VERIFYPEER, 0);
-    curl_easy_setopt(m_curl.get(), CURLOPT_SSL_VERIFYHOST, 0);
-
   curl_mime* form = nullptr;
   Common::ScopeGuard multiform_guard{[&form] { curl_mime_free(form); }};
   if (!multiform.empty())
